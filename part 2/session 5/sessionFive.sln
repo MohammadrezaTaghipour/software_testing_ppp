@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{BB29A304-7792-4FC7-AD95-692BE17DCB54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sessionFive.App", "Src\sessionFive.App\sessionFive.App.csproj", "{F226F80B-A180-404B-873E-C5117409DD47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sessionFive.App.Tests", "Src\sessionFive.App.Tests\sessionFive.App.Tests.csproj", "{81616202-0D8A-47D4-9185-7FD07DA3A32A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F226F80B-A180-404B-873E-C5117409DD47} = {BB29A304-7792-4FC7-AD95-692BE17DCB54}
+		{81616202-0D8A-47D4-9185-7FD07DA3A32A} = {BB29A304-7792-4FC7-AD95-692BE17DCB54}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F226F80B-A180-404B-873E-C5117409DD47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F226F80B-A180-404B-873E-C5117409DD47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F226F80B-A180-404B-873E-C5117409DD47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F226F80B-A180-404B-873E-C5117409DD47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81616202-0D8A-47D4-9185-7FD07DA3A32A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81616202-0D8A-47D4-9185-7FD07DA3A32A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81616202-0D8A-47D4-9185-7FD07DA3A32A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81616202-0D8A-47D4-9185-7FD07DA3A32A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
