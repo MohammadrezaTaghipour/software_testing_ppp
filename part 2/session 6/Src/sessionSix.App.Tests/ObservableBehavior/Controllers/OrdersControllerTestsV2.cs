@@ -1,26 +1,26 @@
 using FluentAssertions;
 using NSubstitute;
+using sessionSix.App.ObservableBehavior.Controllers;
 using sessionSix.App.ObservableBehavior.Domain;
 using sessionSix.App.ObservableBehavior.Services;
 using Xunit;
 
-namespace sessionSix.App.Tests.ObservableBehavior.Services;
+namespace sessionSix.App.Tests.ObservableBehavior.Controllers;
 
-// The following unit tests are not qualified enough
-// There are several points that can be refactored
-public class OrderServiceTests
+// The following unit tests are not that much valuable
+// All tests are Fragile and can't resist to refactoring
+// Lots of implementation details are in the test body
+public class OrdersControllerTestsV2
 {
-    private readonly OrderService _sut;
-
     private readonly IStoreRepository _storeRepository;
     private readonly IDiscountRepository _discountRepository;
     private readonly ICustomerRepository _customerRepository;
     private readonly IProductRepository _productRepository;
     private readonly IOrderRepository _orderRepository;
 
-    private Order _expectedOrder;
+    private readonly OrdersController _sut;
 
-    public OrderServiceTests()
+    public OrdersControllerTestsV2()
     {
         _storeRepository = Substitute.For<IStoreRepository>();
         _discountRepository = Substitute.For<IDiscountRepository>();
@@ -28,14 +28,16 @@ public class OrderServiceTests
         _productRepository = Substitute.For<IProductRepository>();
         _orderRepository = Substitute.For<IOrderRepository>();
 
-        _sut = new OrderService(_storeRepository, _discountRepository,
+        var service = new OrderService(_storeRepository, _discountRepository,
             _customerRepository, _productRepository, _orderRepository);
+
+        _sut = new OrdersController(service);
     }
 
     [Fact]
     public void Order_is_created_successfully()
     {
-        //Arrange
+        //Arrange 
         var request = new CreateOrderRequest
         {
             Id = Guid.NewGuid().ToString(),
@@ -57,60 +59,36 @@ public class OrderServiceTests
                 }
             ]
         };
-        var store = new Store
+        _storeRepository.GetBy(request.StoreId).Returns(new Store
         {
             Id = request.Id,
             IsActive = true
-        };
-        _storeRepository.GetBy(request.StoreId).Returns(store);
-
-        var discount = new Discount
-        {
-            Code = request.DiscountCode,
-            IsActive = true
-        };
-        _discountRepository.GetBy(discount.Code).Returns(discount);
-
-        var customer = new Customer
+        });
+        _customerRepository.GetBy(request.CustomerId).Returns(new Customer
         {
             Id = request.Id,
             IsActive = true
-        };
-        _customerRepository.GetBy(request.CustomerId).Returns(customer);
-
-        var products = new List<Product>();
+        });
         foreach (var productRequestItem in request.Products)
         {
-            var product = new Product
+            _productRepository.GetBy(productRequestItem.Id).Returns(new Product
             {
                 Id = productRequestItem.Id,
                 Price = 100
-            };
-            products.Add(product);
-            _productRepository.GetBy(productRequestItem.Id).Returns(product);
+            });
         }
-
-        _expectedOrder = new Order
-        {
-            Id = request.Id,
-            Store = store,
-            Discount = discount,
-            Customer = customer,
-            Products = products
-        };
 
         //Act
         var actual = _sut.CreateOrder(request);
 
         //Assert
-        actual.Should().BeEquivalentTo(_expectedOrder);
-        _orderRepository.Received(1).Add(Arg.Any<Order>());
+        actual.Should().Be(request.Id);
     }
 
     [Fact]
     public void Order_is_modified_successfully()
     {
-        //Arrange
+        //Arrange 
         var request = new ModifyOrderRequest
         {
             Id = Guid.NewGuid().ToString(),
@@ -132,80 +110,33 @@ public class OrderServiceTests
                 }
             ]
         };
-
-        _expectedOrder = new Order
+        _orderRepository.GetBy(request.Id).Returns(new Order
         {
             Id = request.Id,
-        };
-        _orderRepository.GetBy(request.Id).Returns(_expectedOrder);
-
-        var store = new Store
+        });
+        _storeRepository.GetBy(request.StoreId).Returns(new Store
         {
             Id = request.Id,
             IsActive = true
-        };
-        _storeRepository.GetBy(request.StoreId).Returns(store);
-
-        var discount = new Discount
-        {
-            Code = request.DiscountCode,
-            IsActive = true
-        };
-        _discountRepository.GetBy(discount.Code).Returns(discount);
-
-        var customer = new Customer
+        });
+        _customerRepository.GetBy(request.CustomerId).Returns(new Customer
         {
             Id = request.Id,
             IsActive = true
-        };
-        _customerRepository.GetBy(request.CustomerId).Returns(customer);
-
-        var products = new List<Product>();
+        });
         foreach (var productRequestItem in request.Products)
         {
-            var product = new Product
+            _productRepository.GetBy(productRequestItem.Id).Returns(new Product
             {
                 Id = productRequestItem.Id,
                 Price = 100
-            };
-            products.Add(product);
-            _productRepository.GetBy(productRequestItem.Id).Returns(product);
+            });
         }
-
-        _expectedOrder = new Order
-        {
-            Id = request.Id,
-            Store = store,
-            Discount = discount,
-            Customer = customer,
-            Products = products
-        };
 
         //Act
         var actual = _sut.UpdateOrder(request);
 
         //Assert
-        actual.Should().BeEquivalentTo(_expectedOrder);
-        _orderRepository.Received(1).Add(Arg.Any<Order>());
-    }
-
-    [Fact]
-    public void Order_is_created_only_for_active_store()
-    {
-    }
-
-    [Fact]
-    public void Order_is_created_only_for_active_customer()
-    {
-    }
-
-    [Fact]
-    public void Order_is_created_with_atLeast_one_product()
-    {
-    }
-
-    [Fact]
-    public void Order_is_created_having_only_active_discountCode()
-    {
+        actual.Should().Be(request.Id);
     }
 }

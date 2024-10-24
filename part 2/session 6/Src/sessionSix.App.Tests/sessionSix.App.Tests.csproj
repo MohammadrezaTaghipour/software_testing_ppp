@@ -22,4 +22,8 @@
       <ProjectReference Include="..\sessionSix.App\sessionSix.App.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ObservableBehavior_V2\" />
+    </ItemGroup>
+
 </Project>

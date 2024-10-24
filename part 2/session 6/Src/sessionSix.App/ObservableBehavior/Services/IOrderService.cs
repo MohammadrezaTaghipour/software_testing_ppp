@@ -54,6 +54,8 @@ public class OrderService(
     public Order UpdateOrder(ModifyOrderRequest request)
     {
         var order = orderRepository.GetBy(request.Id);
+        if(order is null)
+            throw new Exception("Order not found");
 
         var customer = customerRepository.GetBy(request.CustomerId);
         if (customer.IsActive == false)
