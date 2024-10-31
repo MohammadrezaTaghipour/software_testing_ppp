@@ -1,0 +1,5 @@
+
+
+1- Dependencies are not Explicit 
+2- Collaboration logic is not seperated from business logic
+3- The code does not use strongly type
