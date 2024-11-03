@@ -1,0 +1,6 @@
+@sessionNine.App_HostAddress = http://localhost:5167
+
+GET {{sessionNine.App_HostAddress}}/users/{id}
+Accept: application/json
+
+###
