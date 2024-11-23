@@ -1,14 +1,14 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using sessionNine.App.Application;
-using sessionNine.App.Domain;
-using sessionNine.App.Infrastructure.Data;
-using sessionNine.App.Infrastructure.Framework;
+using sessionTen.App.Application;
+using sessionTen.App.Domain;
+using sessionTen.App.Infrastructure.Data;
+using sessionTen.App.Infrastructure.Framework;
 using Testcontainers.MsSql;
 using Xunit;
 
-namespace sessionNine.App.Tests.Integrations.Services;
+namespace sessionTen.App.Tests.Integrations.Services.V1;
 
 public class UserServiceTests
 {
